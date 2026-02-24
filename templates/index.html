@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Earth Engine Explorer</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <h1>Earth Engine Explorer</h1>
+        <p class="subtitle">Google Earth Engine Data Layers</p>
+      </div>
+
+      <!-- Layer controls -->
+      <div class="section">
+        <h2>Data Layers</h2>
+        <div id="layer-list">
+          {% for layer in layers %}
+          <div class="layer-item" data-layer-id="{{ layer.id }}">
+            <label class="layer-toggle">
+              <input type="checkbox" data-layer="{{ layer.id }}" />
+              <span class="layer-name">{{ layer.name }}</span>
+            </label>
+            <p class="layer-desc">{{ layer.description }}</p>
+            <div class="layer-loading" id="loading-{{ layer.id }}" style="display:none;">
+              <span class="spinner"></span> Loading tiles...
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Opacity slider -->
+      <div class="section">
+        <h2>Layer Opacity</h2>
+        <input type="range" id="opacity-slider" min="0" max="1" step="0.05" value="0.7" />
+        <span id="opacity-value">70%</span>
+      </div>
+
+      <!-- AI Chat -->
+      <div class="section chat-section">
+        <h2>AI Assistant</h2>
+        <div id="chat-messages"></div>
+        <div class="chat-input-row">
+          <input type="text" id="chat-input" placeholder="Ask about the map data..." />
+          <button id="chat-send">Send</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Map -->
+    <div id="map"></div>
+
+    <!-- Info panel (bottom-right) -->
+    <div id="info-panel">
+      <span id="coords">Lat: —, Lng: —</span>
+      <span id="zoom-level">Zoom: 3</span>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>
